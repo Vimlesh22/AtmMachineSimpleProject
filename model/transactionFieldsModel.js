@@ -24,4 +24,4 @@ var transactionFieldsSchema = mongoose.Schema({
 
   
 
-  module.exports = new atmFieldsModel();
+  module.exports = new transactionFieldsModel();
