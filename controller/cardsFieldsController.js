@@ -80,6 +80,56 @@ exports.checkCardCredentials = (req, res) => {
 
     }
 }
+
+exports.checKAmountsentPresent = (req, res) => {
+    var responseResult = {};
+    req.checkBody('_id', `Card id is required`).notEmpty();
+    req.checkBody('cardNumber', `Card Number is required`).notEmpty();
+    req.checkBody('amount', `Amount is required`).notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        responseResult.status = false;
+        responseResult.message = errors[0].msg;
+        return res.status(400).send(responseResult);
+    } else {
+        cardsFieldsService.checkCardById(req.body, (error, result) => {
+            if (error) {
+                responseResult.status = false;
+                responseResult.message = "Internal Server Error";
+                return res.status(500).send(responseResult);
+            } else if (result == null) {
+                responseResult.status = false;
+                responseResult.message = "Card doesn't exists";
+                return res.status(404).send(responseResult);
+            } else if (req.body.amount > result.balance) {
+                responseResult.status = false;
+                responseResult.message = "Balance less than requested amount";
+                return res.status(400).send(responseResult);
+            } else if (req.body.amount % 100 != 0) {
+                responseResult.status = false;
+                responseResult.message = "Please enter amount multiple of hundred";
+                return res.status(400).send(responseResult);
+            } else if (req.body.amount <= result.amount) {
+                responseResult.status = false;
+                responseResult.message = "Entered amount ";
+                return res.status(400).send(responseResult);
+            } else {
+                cardsFieldsService.checkCardAndUpdate(req.body, (error, result) => {
+                    if (error) {
+                        responseResult.status = false;
+                        responseResult.message = "Internal Server Error";
+                        return res.status(500).send(responseResult);
+                    } else {
+                        responseResult.status = false;
+                        responseResult.message = "Success";
+                        responseResult.result = result;
+                        return res.status(200).send(responseResult);
+                    }
+                })
+            }
+        })
+    }
+}
 // function cardsFieldsController()
 // {
 

@@ -12,6 +12,6 @@ const router = express.Router();
 router.post('/add/atm-data', atmFieldsController.addAtmData);
 router.post('/add/card-details', cardsFieldsController.addUsersCardDetails);
 router.post('/check/valid-card', cardsFieldsController.checkCardCredentials);
-
+router.post('/check/sent-amount', cardsFieldsController.checKAmountsentPresent);
 
 module.exports = router;

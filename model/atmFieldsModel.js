@@ -8,7 +8,7 @@ var atmFieldsSchema = mongoose.Schema({
     count: {
         type: Number,
         required: [true, 'Count is required'],
-    } 
+    }
 });
 
 var atmFields = mongoose.model('atmFields', atmFieldsSchema);
@@ -18,9 +18,9 @@ function atmFieldsModel() {
 };
 
 atmFieldsModel.prototype.save = (data, callback) => {
-    var newData =  new atmFields(data);
+    var newData = new atmFields(data);
     newData.save(newData, (error, result) => {
-        if(error){
+        if (error) {
             callback(error);
         } else {
             callback(null, result);
@@ -28,6 +28,25 @@ atmFieldsModel.prototype.save = (data, callback) => {
     })
 }
 
+atmFieldsModel.prototype.findAll = (callback) => {
+    atmFields.find({}, (error, result) => {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, result);
+        }
+    })
+}
+
+atmFieldsModel.prototype.UpdateOne = (update_data, callback) => {
+    atmFields.updateOne({_id: update_data._id }, update_data, (error, result) => {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, result);
+        }
+    })
+}
 module.exports = new atmFieldsModel();
 
 //   atmFieldsModel.prototype.enterMoneyInAtmModel = function(currencyDenomination,count,callback){

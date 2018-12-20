@@ -43,6 +43,15 @@ cardFieldsModel.prototype.findOne = (data, callback) => {
     })
 }
 
+cardFieldsModel.prototype.UpdateOne = (data, callback) => {
+    cardsField.updateOne({_id: data._id}, data, (error, result) => {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, result);
+        }
+    })
+}
 module.exports = new cardFieldsModel();
 
 //   cardFieldsModel.prototype.createNewCardModel = function(cardNumber,pin,balance,callback){
